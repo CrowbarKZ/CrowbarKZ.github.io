@@ -9,7 +9,7 @@
 
 body {
     font-weight: 100;
-    color: #f1c631;
+    color: #f5d06a;
     background-color: #0b0d12;
     text-align: center;
 }
@@ -24,7 +24,7 @@ img {
 
 blockquote {
   background: #0b0d12;
-  border-left: 10px solid #ccc;
+  border-left: 10px solid #f5d06a;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
   quotes: "\201C""\201D""\2018""\2019";
@@ -33,7 +33,7 @@ blockquote {
   font-size: x-large;
 }
 blockquote:before {
-  color: #ccc;
+  color: #f5d06a;
   content: open-quote;
   font-size: 4em;
   line-height: 0.1em;
@@ -57,16 +57,16 @@ button {
   border-bottom-width: 3px;
   transition: text-shadow 0.3s ease;
 
-  color: #f1c631;
+  color: #f5d06a;
   font-family:'LifeCraftRegular';
   background-color: #0b0d12;
-  border-color: #f1c631;
+  border-color: #f5d06a;
 }
 
 
 input[type=text], input[type=password] {
   display: inline-block;
-  color: #f1c631;
+  color: #f5d06a;
   padding: 10px;
   width: 250px;
   box-sizing: border-box;
