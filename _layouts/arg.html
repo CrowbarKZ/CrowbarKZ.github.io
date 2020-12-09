@@ -1,76 +1,102 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>A suspicious SI:7 Snapper FX</title>
-    <link rel="stylesheet" type="text/css" href="/assets/arg/style.css"/>
-  </head>
-
-
-  <body>
-    <section>
-      <blockquote class="author-text">
-        You see a strange device, resembling a Snapper FX with more parts attached.
-        Upon closer inspection you find a magical display and a set of controls. It seems like
-        they are intended to view the pictures taken with this Snapper.
-        <br><br>
-        You browse through the saved pictures... it seems there are two of them, but neither shows anything.
-        Hmmmm... strange.
-        <br><br>
-        You notice there is a magical password input for each picture.
-        Perhaps, entering the correct password will reveal something?
-      </blockquote>
-      <div class="container">
-          <h1>First Picture</h1>
-          <p id="img0-status"></p>
-          <div>
-            <input id="img0-pass" type="text"/><button type="button" onclick="reveal(0)">Reveal</button>
-          </div>
-          <img id="img0" src=""/>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="my-auto mx-auto bg-gray-900">
+    <div id="chapter0" class="py-10">
+      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-gray-700 max-h-screen shadow-2xl flex-row rounded relative">
+        <div class="p-2 bg-gray-600 text-blue-900 rounded-t">
+          <h5 class="chapter-title text-white text-2xl capitalize">Beginning...</h5>
+        </div>
+        <div class="p-2 w-full h-full overflow-y-auto text-gray-100 font-serif text-xl">
+          <p class="chapter-lore text-justify py-2">
+            You wake up from a dream, mind still hazy. In the dream a wise man was guiding you to "podarochik", you are not sure what "podarochik" is, but you want to find out. Unfortunately all you can remember is that there should be some important clue hidden in the best backpack ever made. What could that mean?
+          </p>
+          <input class="clue clue-input border rounded px-4 py-2 text-gray-700 leading-tight" type="text" placeholder="Clue" autofocus/>
+          <button type="button" onclick="revealNext()" class="clue border border-yellow-500 bg-yellow-500 text-black rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-yellow-700 focus:outline-none focus:shadow-outline">
+            That's it
+          </button>
+        </div>
       </div>
-      <div class="container">
-          <h1>Second Picture</h1>
-          <p id="img1-status"></p>
-          <div>
-            <input id="img1-pass" type="text"/><button type="button" onclick="reveal(1)">Reveal</button>
-          </div>
-          <img id="img1" src=""/>
-      </div>
-      <footer>
-          (passwords may consist only of lowercase latin letters and numbers)
-      </footer>
-    </section>
-  </body>
+    </div>
 
-  <script src="/assets/arg/sjcl.js"></script>
-  <script src="/assets/arg/images.js"></script>
-  <script>
-  let errorMessages = [
-    "Nothing happened.",
-    "Hmm... this seems to be a wrong one.",
-    "Nope.",
-    "Try again.",
-    "Another one, please.",
-    "Doesn't seem to work.",
-    "Hmm, are you even trying?",
-    "Wait a bit, think, then try again."
-  ]
-  let counter = 0;
+</body>
 
-  function reveal(idx) {
-      document.getElementById('img' + idx).setAttribute('src', "");
-      document.getElementById('img' + idx + '-status').textContent = "";
-      try {
-        let pass = document.getElementById('img' + idx + '-pass').value;
-        let image = sjcl.decrypt(pass.toLowerCase(), images[idx]);
-        document.getElementById('img' + idx).setAttribute('src', image);
-      } catch (error) {
-        counter = (counter + 1) % errorMessages.length;
-        let status = errorMessages[counter];
-        document.getElementById('img' + idx + '-status').textContent = status;
-      }
+<script src="/assets/arg/sjcl.js"></script>
+<script>
+let chapters = [
+    {}, // placeholder for first chapter
+    {
+        "title": "{\"iv\":\"9y/3Hgw8edc/+B17TbbvJQ==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"frtJbEBpyOw=\",\"ct\":\"vGfFCzHatlBppCUGbZNyzqwGYSJUUims9K0Q3gJCHw==\"}",
+        "lore": "{\"iv\":\"64RMH/zTkLwIkFcTshFVAA==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"frtJbEBpyOw=\",\"ct\":\"fOJuf8EpkLULQyZ6+NLZVzMZ5/YUkbFSGgt9/LXXE6z8CtkGmRXHAfXQF1bMQZ/M6m+CNd5Mel2Lmw1tsvs1SDjrHXIzTcbdx/QHtFOCqJFHdb+8Id4az0KmYIvKUYf16xOo1s+tn+6761YpXlEPz5KbfmaNuqf1C3LkJhnxl7D/rvHlNjbOMR7KngA+Fs1UHnjxD1GsE+1BAxGOdf1cgcjBj6ntLIBwg+9ev2aINdxLorUNPWxQpchT/bA4wvOdcoM5+Ex0Nra5A3s7SXajbx0Tz6IxPdTHTakHSz7ld5rTxGAwWZabI78TfJAOXZWiovpgItwzbp9uuaYIUilk5YiTcl9GW4sqUKdtgu7/WHU8upd0NihiI7p6pmh6L+5qRqEBOuf21m0Zn/LVeUCCTjzKwviJfr17Yd02xNKO0iWy6TAEQ6Wf/qf8g/vLL5+c+p6tNwR9ATe9xVtxQQvpPo+zXPyPPLe3AQ2klq1al4YQ8X6NsM/oRON/u5Txd+aEjw/n8Ocx5zYNgk4OW+LHhh9otHx6SLfrtwD+pBimpRtVNPi2597LgTpfZjssnY48XDFv8L4hNL37dWW0vr5300kh1hijV77nMTWovQZrxRyRHK8/H6Gkq5Wrf1pS7bWXIh62fNoOrbyES9cLR33L49PDZ004lh294jlo9LrpYE2OkYlhQMjGgELu9pa7AGasWAPUepX3QlA=\"}"
+    },
+    {
+        "title": "{\"iv\":\"GKfLNG8X9Sp+DYPjSLqFow==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"F/vUQiertf0=\",\"ct\":\"37MfZ7r5z/tT+KJ9K+rwyak+Cfv2DZdYtNhZRq/bEw==\"}",
+        "lore": "{\"iv\":\"BbIAmxLTGZXXydRJNb7/sg==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"F/vUQiertf0=\",\"ct\":\"MrrUKP9Xbf+ezaXACvbSbLBzLC9UL6UP5Q16DCZoI9H1LE3U/0sxE0GwnR9uOA+SkP5U+rLYTcTxHsC8+qukiFuswpVj8gbvvRPS7Xz83r4asC3nOrp8pIUP02deuI0DlJtOiwA1ByeOrHOG5ScP+w8JAln7bUnLrUSAdtEb5h6lTdfOVQQI8RyW1IjsMKe5DS2614w9dVsOOc4eQ6kmAP96obuf1tp7HrUSheAOcBgzWZ8JYad5Z9O7L1ePIBX3wnfPRGu4XF0hRoUokcIiL7dRCxJ8GGeC+MpzH8CIco4HQG1X/l5z6atC5pwzXce6PHrGifOPmz5hNUVmIICKEA==\"}"
+    },
+    {
+        "title": "{\"iv\":\"82hXjc1gcEAI4w13OdmyJw==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"sBN6gpl4rl8=\",\"ct\":\"fGegVWZ1o8rS9h5jwknLs+1vFV1s\"}",
+        "lore": "{\"iv\":\"WFyIAXYDXbBNM3ltzNDaPg==\",\"v\":1,\"iter\":10000,\"ks\":128,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"sBN6gpl4rl8=\",\"ct\":\"sAxQ/T2nTfCOcX+KYhk9iGmDcgcCk3CxqssZbUouiTKojSmnbV7xD20R50Q1oemm3vVSv1khia68zCZSWENSNxw/iwhoMdqbIG9swpX/LsYL94b4am74cnBznwyYzDpgPA5NH7rnrJAkZwIlWMGU0TywOviWJV9xComYnswQEu8MNmIKN21rjWzRHPnu5TawF/Z3UL1j83fcMMPkMZzj56eDK8iB3cRZsJ9Ty7TTmepJaduAxV9mvKxrM6pWi6iDSiER8GrfuyFS4y+VG0M4jP5iVP3twLB3oC8a/loAHepJlIf2KJCdeSth+v7o9lrwqQo9ZQN5\"}"
+    }
+]
+let currentChapter = 0;
+let lastChapter = 3;
+
+function revealNext() {
+    try {
+        let currentChapterId = "chapter" + currentChapter;
+        let nextChapterId= "chapter" + (currentChapter + 1)
+
+        // decrypt title and lore for next chapter
+        let clue = document.querySelector("#" + currentChapterId + "> * .clue-input").value.toLowerCase();
+
+        let bundle = chapters[currentChapter + 1];
+        let title = sjcl.decrypt(clue, bundle.title);
+        let lore = sjcl.decrypt(clue, bundle.lore);
+
+        // add next chapter divs
+        let original = document.getElementById(currentChapterId);
+        let clone = original.cloneNode(true);
+        clone.id = nextChapterId;
+        original.parentNode.appendChild(clone);
+
+        // update next chapter's title and lore and input
+        document.querySelector("#" + nextChapterId + "> * .chapter-title").innerHTML = title;
+        document.querySelector("#" + nextChapterId + "> * .chapter-lore").innerHTML = lore;
+        document.querySelector("#" + nextChapterId + "> * .clue-input").value = "";
+        document.querySelector("#" + nextChapterId + "> * .clue-input").focus();
+
+        // hide current chapter controls
+        let currentControls = document.querySelectorAll("#" + currentChapterId + "> * .clue");
+        currentControls.forEach(elem => elem.style.display = "none");
+
+        // increment the chapter tracker
+        currentChapter++;
+
+        // hide next chapter controls if it's last
+        if (currentChapter == lastChapter) {
+            let currentChapterId = "chapter" + currentChapter;
+            let currentControls = document.querySelectorAll("#" + currentChapterId + "> * .clue");
+            currentControls.forEach(elem => elem.style.display = "none");
+        }
+    } catch (error) {
+        alert("Wrong clue");
+    }
+}
+
+document.onkeydown = function (e) {
+  e = e || window.event;
+  switch (e.which || e.keyCode) {
+        case 13 :
+            revealNext();
+            break;
   }
-  </script>
+}
+
+</script>
 </html>
 
 

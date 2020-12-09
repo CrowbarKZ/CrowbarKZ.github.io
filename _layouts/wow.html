@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>WoW Healing Priest</title>
+    <link rel="stylesheet" type="text/css" href="/assets/arg/style.css"/>
+  </head>
+
+
+  <body>
+    <section>
+      <blockquote class="author-text">
+        You see a strange device, resembling a Snapper FX with more parts attached.
+        Upon closer inspection you find a magical display and a set of controls. It seems like
+        they are intended to view the pictures taken with this Snapper.
+        <br><br>
+        You browse through the saved pictures... it seems there are two of them, but neither shows anything.
+        Hmmmm... strange.
+        <br><br>
+        You notice there is a magical password input for each picture.
+        Perhaps, entering the correct password will reveal something?
+      </blockquote>
+      <div class="container">
+          <h1>First Picture</h1>
+          <p id="img0-status"></p>
+          <div>
+            <input id="img0-pass" type="text"/><button type="button" onclick="reveal(0)">Reveal</button>
+          </div>
+          <img id="img0" src=""/>
+      </div>
+      <div class="container">
+          <h1>Second Picture</h1>
+          <p id="img1-status"></p>
+          <div>
+            <input id="img1-pass" type="text"/><button type="button" onclick="reveal(1)">Reveal</button>
+          </div>
+          <img id="img1" src=""/>
+      </div>
+      <footer>
+          (passwords may consist only of lowercase latin letters and numbers)
+      </footer>
+    </section>
+  </body>
+
+</html>
+
+
